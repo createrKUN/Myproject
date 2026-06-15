@@ -10,7 +10,10 @@ const PADDLE_W = 12;
 const PADDLE_H = 90;
 const BALL_SIZE = 10;
 const PADDLE_SPEED = 6;
+const BALL_SPEED = 3.5;       // 球初始速度
 const MAX_SCORE = 11;
+const TARGET_FPS = 60;        // 固定帧率
+const FRAME_TIME = 1000 / TARGET_FPS;
 
 // ========== 游戏状态 ==========
 let paddle1Y, paddle2Y;
@@ -38,9 +41,8 @@ function reset() {
     ballY = canvas.height / 2;
     const angle = (Math.random() * 0.5 - 0.25) * Math.PI; // -45° ~ +45°
     const dir = Math.random() < 0.5 ? 1 : -1;
-    const speed = 5;
-    ballDX = speed * Math.cos(angle) * dir;
-    ballDY = speed * Math.sin(angle);
+    ballDX = BALL_SPEED * Math.cos(angle) * dir;
+    ballDY = BALL_SPEED * Math.sin(angle);
 }
 
 function startGame() {
@@ -155,12 +157,26 @@ function updateScore() {
     score2El.textContent = score2;
 }
 
-// ========== 游戏循环 ==========
-function loop() {
-    update();
+// ========== 游戏循环（帧率控制） ==========
+let lastTime = 0;
+let accumulator = 0;
+
+function loop(timestamp) {
+    if (lastTime === 0) lastTime = timestamp;
+    const elapsed = timestamp - lastTime;
+    lastTime = timestamp;
+
+    // 防止切后台回来时间差过大
+    accumulator += Math.min(elapsed, 100);
+
+    while (accumulator >= FRAME_TIME) {
+        update();
+        accumulator -= FRAME_TIME;
+    }
+
     draw();
     requestAnimationFrame(loop);
 }
 
 reset();
-loop();
+requestAnimationFrame(loop);
