@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pong - 经典乒乓</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>🏓 PONG</h1>
+        <div class="scoreboard">
+            <div class="score-box">
+                <p>玩家 1 (W/S)</p>
+                <span id="score1">0</span>
+            </div>
+            <div class="score-box">
+                <p>玩家 2 (↑/↓)</p>
+                <span id="score2">0</span>
+            </div>
+        </div>
+        <canvas id="canvas" width="800" height="450"></canvas>
+        <div class="instructions">
+            <p id="gameStatus">按 空格键 开始游戏</p>
+            <p>玩家1: W / S &nbsp;&nbsp;|&nbsp;&nbsp; 玩家2: ↑ / ↓</p>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
